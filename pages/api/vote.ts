@@ -92,7 +92,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           <meta name="fc:frame:post_url" content="${process.env['HOST']}/api/payout?id=${payout.id}&voted=true&results=${results ? 'false' : 'true'}">
           <meta name="fc:frame:button:1" content="${button1Text}">
           <meta name="fc:frame:button:2" content="Create your payout">
-          <meta name="fc:frame:button:2:action" content="post_redirect">
+          <meta name="fc:frame:button:2:target" content="${process.env['HOST']}">
+          <meta name="fc:frame:button:3" content="Cast">
+          <meta name="fc:frame:button:3:target" content="${` https://warpcast.com/~/compose?text="
+          👤💸 followers.fund 
+          quadratically airdrop your followers with the most clout 
+          Make the sign in button in Center and the footer 
+          ❤️ by 🫕 Potlock"&embeds[]=${window.location.href}`}">
         </head>
         <body>
           <p>${ results || voted ? `You have already voted. You clicked ${buttonId}` : `Your vote for ${buttonId} has been recorded for fid ${fid}.` }</p>
