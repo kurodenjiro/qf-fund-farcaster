@@ -76,7 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     const amount = payout[`amount${index + 1}`]
               
                     const percentOfTotal = totalVotes ? Math.round(amount / totalVotes * 100) : 0;
-                    let text = showResults ? `${percentOfTotal}%: ${user.split("-")[0]} (${amount} Followers) ${(totalAmount  *percentOfTotal)/100} ${token}` : `${index + 1}. ${user}`
+                    let text = showResults ? `${percentOfTotal}%: ${user.split("-")[0]} (${amount} Followers) ${(totalAmount  *percentOfTotal)/100} ${token}` : `${index + 1}. ${user.split("-")[0]}-(${amount} Followers) ${(totalAmount  *percentOfTotal)/100} ${token}`
                     return { user, amount, text, percentOfTotal }
                 })
         };
