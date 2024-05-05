@@ -53,7 +53,7 @@ export async function generateMetadata(
         "fc:frame:image": `${process.env['HOST']}/api/image?id=${id}`,
     };
     [payout.user1, payout.user2, payout.user3, payout.user4].filter(o => o !== "").map((user, index) => {
-        fcMetadata[`fc:frame:button:${index + 1}`] = user;
+        fcMetadata[`fc:frame:button:${index + 1}`] = user.split("-")[0];
     })
 
 
