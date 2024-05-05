@@ -1,6 +1,6 @@
 import "./globals.css";
 import { GeistSans } from "geist/font/sans";
-import SessionProvider from "@/components/SessionProvider";
+import SessionProvider from "../components/SessionProvider";
 
 export default function RootLayout({
   children,
