@@ -9,6 +9,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { sendTransaction } from '@wagmi/core'
 import { parseEther } from 'viem'
 import { config } from './config'
+import { Account } from './account'
+import { WalletOptions } from './wallet-options'
+import {  useAccount , useDisconnect } from 'wagmi'
+
+function ConnectWallet() {
+  const { isConnected } = useAccount()
+  if (isConnected) return <Account />
+  return <WalletOptions />
+}
 
 const sendTranstaction = async (address: string, amount: string) => {
     const result = await sendTransaction(config, {
@@ -278,7 +287,8 @@ export function PayoutVoteForm({ payout, viewResults }: { payout: Payout, viewRe
     const handleVote = (index: number) => {
         setSelectedOption(index)
     };
-
+    const { address } = useAccount()
+    const { disconnect } = useDisconnect()
     return (
         <div className="max-w-sm rounded overflow-hidden shadow-lg p-4 m-4">
             <div className="font-bold text-xl mb-2">{payout.title}</div>
@@ -323,11 +333,13 @@ export function PayoutVoteForm({ payout, viewResults }: { payout: Payout, viewRe
                         href={` https://warpcast.com/~/compose?text="👤💸 followers.fund quadratically airdrop your followers with the most clout Make the sign in button in Center and the footer 
 ❤️ by 🫕 Potlock"&embeds[]=${process.env['HOST']}/api/payout?id=${payout.id}`}> Share Cast</a>
                     <div className="flex flex-col space-y-4 pt-4">
+                    {address ? <>
                         <div>  <button
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             onClick={() => sendTranstaction(payout.user1.split("-")[2].replace('0x',''), payout.amount1.toString())}
                         >Payout User 1
-                        </button></div>
+                        </button>
+                        </div>
                         <div> <button
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             onClick={() => sendTranstaction(payout.user1.split("-")[2].replace('0x',''), payout.amount2.toString())}
@@ -342,7 +354,11 @@ export function PayoutVoteForm({ payout, viewResults }: { payout: Payout, viewRe
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             onClick={() => sendTranstaction(payout.user1.split("-")[2].replace('0x',''), payout.amount4.toString())}
                         >Payout User 4
-                        </button></div>
+                        </button>
+                        <button onClick={() => disconnect()}  className="bg-blue-500 mr-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Disconnect</button>
+                        </div>
+                    </>:<ConnectWallet /> }
+                       
                     </div>
 
 
