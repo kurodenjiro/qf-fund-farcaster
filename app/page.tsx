@@ -15,8 +15,8 @@ import { useCallback, useState } from "react";
 const config = {
   relay: "https://relay.farcaster.xyz",
   rpcUrl: "https://mainnet.optimism.io",
-  siweUri: "http://example.com/login",
-  domain: "example.com",
+  siweUri: "https://qf-fund-farcaster.vercel.app/",
+  domain: "qf-fund-farcaster.vercel.app",
 };
 
 export default function Home() {
