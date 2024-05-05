@@ -66,19 +66,21 @@ function Content() {
           >
             Sign out
           </button>
-        ) : (<SignInButton
-          nonce={getNonce}
-          onSuccess={handleSuccess}
-          onError={() => setError(true)}
-          onSignOut={() => signOut()}
-        />)}
+        ) : (
+          <SignInButton
+            nonce={getNonce}
+            onSuccess={handleSuccess}
+            onError={() => setError(true)}
+            onSignOut={() => signOut()}
+          />
+        )}
 
         {error && <div>Unable to sign in at this time.</div>}
       </div>
 
-      
+
       <div>
-        
+
         <Profile />
       </div>
 

@@ -6,9 +6,11 @@ import { JsonRpcProvider } from "ethers";
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, {
+    secret: process.env.SECRET,
     providers: [
       CredentialsProvider({
         name: "Sign in with Farcaster",
+        
         credentials: {
           message: {
             label: "Message",
