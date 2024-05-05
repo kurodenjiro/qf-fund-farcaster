@@ -334,23 +334,23 @@ export function PayoutVoteForm({ payout, viewResults }: { payout: Payout, viewRe
 ❤️ by 🫕 Potlock"&embeds[]=${process.env['HOST']}/api/payout?id=${payout.id}`}> Share Cast</a>
                     <div className="flex flex-col space-y-4 pt-4">
                     {address ? <>
-                        <div>  <button
+                        <div>  <button type="button"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             onClick={() => sendTranstaction(payout.user1.split("-")[2].replace('0x',''), payout.amount1.toString())}
                         >Payout User 1
                         </button>
                         </div>
-                        <div> <button
+                        <div> <button type="button"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             onClick={() => sendTranstaction(payout.user1.split("-")[2].replace('0x',''), payout.amount2.toString())}
                         >Payout User 2
                         </button></div>
-                        <div><button
+                        <div><button type="button"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             onClick={() => sendTranstaction(payout.user1.split("-")[2].replace('0x',''), payout.amount3.toString())}
                         >Payout User 3
                         </button></div>
-                        <div> <button
+                        <div> <button type="button"
                             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             onClick={() => sendTranstaction(payout.user1.split("-")[2].replace('0x',''), payout.amount4.toString())}
                         >Payout User 4
