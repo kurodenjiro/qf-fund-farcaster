@@ -46,6 +46,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const amountUser2 = await fetchAllFollowing(parseInt(payout.user2.split("-")[1]));
         const amountUser3 = await fetchAllFollowing(parseInt(payout.user3.split("-")[1]));
         const amountUser4 = await fetchAllFollowing(parseInt(payout.user4.split("-")[1]));
+        const totalAmount = payout.totalAmount;
+        const token = payout.token;
         payout.amount1 = amountUser1.length;
         payout.amount2 = amountUser2.length;
         payout.amount3 = amountUser3.length;
@@ -72,8 +74,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 .map((user, index) => {
                     // @ts-ignore
                     const amount = payout[`amount${index + 1}`]
+              
                     const percentOfTotal = totalVotes ? Math.round(amount / totalVotes * 100) : 0;
-                    let text = showResults ? `${percentOfTotal}%: ${user.split("-")[0]} (${amount} Followers) ${(payout.totalAmount*percentOfTotal)/100} ${payout.token}` : `${index + 1}. ${user}`
+                    let text = showResults ? `${percentOfTotal}%: ${user.split("-")[0]} (${amount} Followers) ${(totalAmount  *percentOfTotal)/100} ${token}` : `${index + 1}. ${user}`
                     return { user, amount, text, percentOfTotal }
                 })
         };
