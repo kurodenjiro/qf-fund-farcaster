@@ -98,7 +98,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           👤💸 followers.fund 
           quadratically airdrop your followers with the most clout 
           Make the sign in button in Center and the footer 
-          ❤️ by 🫕 Potlock"&embeds[]=${window.location.href}`}">
+          ❤️ by 🫕 Potlock"&embeds[]=${process.env['HOST']}/api/payout?id=${payout.id}`}">
         </head>
         <body>
           <p>${ results || voted ? `You have already voted. You clicked ${buttonId}` : `Your vote for ${buttonId} has been recorded for fid ${fid}.` }</p>
