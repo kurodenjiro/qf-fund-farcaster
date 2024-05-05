@@ -89,7 +89,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           <meta property="og:image" content="${imageUrl}">
           <meta name="fc:frame" content="vNext">
           <meta name="fc:frame:image" content="${imageUrl}">
-          <meta name="fc:frame:post_url" content="${process.env['HOST']}/api/vote?id=${payout.id}&voted=true&results=${results ? 'false' : 'true'}">
+          <meta name="fc:frame:post_url" content="${process.env['HOST']}/api/payout?id=${payout.id}&voted=true&results=${results ? 'false' : 'true'}">
           <meta name="fc:frame:button:1" content="${button1Text}">
           <meta name="fc:frame:button:2" content="Create your payout">
           <meta name="fc:frame:button:2:action" content="post_redirect">

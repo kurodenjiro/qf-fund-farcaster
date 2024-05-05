@@ -49,7 +49,7 @@ export async function generateMetadata(
 
     const fcMetadata: Record<string, string> = {
         "fc:frame": "vNext",
-        "fc:frame:post_url": `${process.env['HOST']}/api/vote?id=${id}`,
+        "fc:frame:post_url": `${process.env['HOST']}/api/payout?id=${id}`,
         "fc:frame:image": `${process.env['HOST']}/api/image?id=${id}`,
     };
     [payout.user1, payout.user2, payout.user3, payout.user4].filter(o => o !== "").map((user, index) => {
