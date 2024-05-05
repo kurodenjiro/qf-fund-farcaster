@@ -12,7 +12,7 @@
     "@farcaster/auth-client": "^0.1.1",
     "@farcaster/auth-kit": "^0.2.2",
     "@farcaster/hub-nodejs": "^0.10.21",
-    "@neynar/nodejs-sdk": "^1.21.2",
+    "@neynar/nodejs-sdk": "v1.21.0",
     "@types/node": "20.11.0",
     "@types/react": "18.2.47",
     "@types/react-dom": "18.2.18",
