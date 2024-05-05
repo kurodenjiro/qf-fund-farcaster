@@ -9,7 +9,6 @@ const config = {
   rpcUrl: "https://mainnet.optimism.io",
   domain: "localhost:300",
   siweUri: "http://localhost:300",
-  provider: new providers.JsonRpcProvider(undefined, 10)
 };
 
 
