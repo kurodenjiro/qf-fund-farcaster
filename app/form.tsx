@@ -306,6 +306,14 @@ export function PayoutVoteForm({ payout, viewResults }: { payout: Payout, viewRe
                         type="submit"
                     >Back
                     </button>
+
+                    <a 
+                    className="bg-blue-500 mr-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    href={` https://warpcast.com/~/compose?text="
+👤💸 followers.fund 
+quadratically airdrop your followers with the most clout 
+Make the sign in button in Center and the footer 
+❤️ by 🫕 Potlock"&embeds[]=${window.location.href}`}> Share Cast</a>
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         type="submit"
