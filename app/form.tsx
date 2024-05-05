@@ -6,22 +6,6 @@ import { redirectToPayouts, savePayout, votePayout } from "./actions";
 import { v4 as uuidv4 } from "uuid";
 import { Payout } from "./types";
 import { useRouter, useSearchParams } from "next/navigation";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { WagmiProvider, useAccount } from 'wagmi'
-import { Account } from './account' 
-import { WalletOptions } from './wallet-options' 
-import { config } from './config'
-
-
-
-const queryClient = new QueryClient()
-
-function ConnectWallet() { 
-  const { isConnected } = useAccount() 
-  if (isConnected) return <Account /> 
-  return <WalletOptions /> 
-} 
-
 
 type PayoutState = {
     newPayout: Payout;
@@ -33,7 +17,6 @@ type PayoutState = {
 type Props = {
     fId: string;
 }
-declare let window: any;
 export function PayoutCreateForm({ fId }: Props) {
 
     let formRef = useRef<HTMLFormElement>(null);
@@ -323,15 +306,11 @@ export function PayoutVoteForm({ payout, viewResults }: { payout: Payout, viewRe
                         type="submit"
                     >Back
                     </button>
-                    <WagmiProvider config={config}>
-      <QueryClientProvider client={queryClient}> 
-        <ConnectWallet /> 
-      </QueryClientProvider> 
-    </WagmiProvider>
+
                     <a 
                     className="bg-blue-500 mr-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     href={` https://warpcast.com/~/compose?text="👤💸 followers.fund quadratically airdrop your followers with the most clout Make the sign in button in Center and the footer 
-❤️ by 🫕 Potlock"&embeds[]=${process.env['HOST']}/api/payout?id=${payout.id}`}> Share Cast</a>
+❤️ by 🫕 Potlock"&embeds[]=${window.location.href}`}> Share Cast</a>
 
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

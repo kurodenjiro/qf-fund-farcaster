@@ -16,7 +16,7 @@ const config = {
   relay: "https://relay.farcaster.xyz",
   rpcUrl: "https://mainnet.optimism.io",
   siweUri: "https://qf-fund-farcaster.vercel.app/",
-  domain: "qf-fund-farcaster.vercel.app",
+  domain: "localhost:3000",
 };
 
 export default function Home() {
