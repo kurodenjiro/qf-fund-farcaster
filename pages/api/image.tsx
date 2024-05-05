@@ -1,50 +1,80 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import sharp from 'sharp';
-import {Poll} from "@/app/types";
-import {kv} from "@vercel/kv";
+import { Payout } from "@/app/types";
+import { kv } from "@vercel/kv";
 import satori from "satori";
 import { join } from 'path';
 import * as fs from "fs";
+import { NeynarAPIClient } from "@neynar/nodejs-sdk";
+
+const client = new NeynarAPIClient(process.env.NEYNAR_API_KEY as string);
 
 const fontPath = join(process.cwd(), 'Roboto-Regular.ttf')
 let fontData = fs.readFileSync(fontPath)
 
+
+const fetchAllFollowing = async (fid: number) => {
+    let cursor: string | null = "";
+    let users: unknown[] = [];
+    do {
+        const result = await client.fetchUserFollowing(fid , {
+            limit: 150,
+            cursor,
+        });
+        users = users.concat(result.result.users);
+        cursor = result.result.next.cursor;
+        console.log(cursor);
+    } while (cursor !== "" && cursor !== null);
+
+    return users;
+};
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const pollId = req.query['id']
+        const payoutId = req.query['id']
         // const fid = parseInt(req.query['fid']?.toString() || '')
-        if (!pollId) {
-            return res.status(400).send('Missing poll ID');
+        if (!payoutId) {
+            return res.status(400).send('Missing payout ID');
         }
 
-        let poll: Poll | null = await kv.hgetall(`poll:${pollId}`);
+        let payout: Payout | null = await kv.hgetall(`payout:${payoutId}`);
 
-
-        if (!poll) {
-            return res.status(400).send('Missing poll ID');
+        console.log(payout)
+        if (!payout) {
+            return res.status(400).send('Missing payout ID');
         }
-
+        const amountUser1 = await fetchAllFollowing(parseInt(payout.user1.split("-")[1]));
+        const amountUser2 = await fetchAllFollowing(parseInt(payout.user2.split("-")[1]));
+        const amountUser3 = await fetchAllFollowing(parseInt(payout.user3.split("-")[1]));
+        const amountUser4 = await fetchAllFollowing(parseInt(payout.user4.split("-")[1]));
+        payout.amount1 = amountUser1.length;
+        payout.amount2 = amountUser2.length;
+        payout.amount3 = amountUser3.length;
+        payout.amount4 = amountUser4.length;
         const showResults = req.query['results'] === 'true'
         // let votedOption: number | null = null
         // if (showResults && fid > 0) {
-        //     votedOption = await kv.hget(`poll:${pollId}:votes`, `${fid}`) as number
+        //     votedOption = await kv.hget(`payout:${payoutId}:amount`, `${fid}`) as number
         // }
 
-        const pollOptions = [poll.option1, poll.option2, poll.option3, poll.option4]
-            .filter((option) => option !== '');
-        const totalVotes = pollOptions
+        const payoutOptions = [payout.user1, payout.user2, payout.user3, payout.user4]
+            .filter((user) => user !== '');
+            
+            console.log(payoutOptions)
+        const totalVotes = payoutOptions
             // @ts-ignore
-            .map((option, index) => parseInt(poll[`votes${index+1}`]))
+            .map((user, index) => parseInt(payout[`amount${index + 1}`]))
             .reduce((a, b) => a + b, 0);
-        const pollData = {
-            question: showResults ? `Results for ${poll.title}` : poll.title,
-            options: pollOptions
-                .map((option, index) => {
+
+            
+        const payoutData = {
+            question: showResults ? `Results for ${payout.title}` : payout.title,
+            users: payoutOptions
+                .map((user, index) => {
                     // @ts-ignore
-                    const votes = poll[`votes${index+1}`]
-                    const percentOfTotal = totalVotes ? Math.round(votes / totalVotes * 100) : 0;
-                    let text = showResults ? `${percentOfTotal}%: ${option} (${votes} votes)` : `${index + 1}. ${option}`
-                    return { option, votes, text, percentOfTotal }
+                    const amount = payout[`amount${index + 1}`]
+                    const percentOfTotal = totalVotes ? Math.round(amount / totalVotes * 100) : 0;
+                    let text = showResults ? `${percentOfTotal}%: ${user.split("-")[0]} (${amount} Followers) ${(payout.totalAmount*percentOfTotal)/100} ${payout.token}` : `${index + 1}. ${user}`
+                    return { user, amount, text, percentOfTotal }
                 })
         };
 
@@ -65,12 +95,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     flexDirection: 'column',
                     padding: 20,
                 }}>
-                    <h2 style={{textAlign: 'center', color: 'lightgray'}}>{poll.title}</h2>
+                    <h2 style={{ textAlign: 'center', color: 'lightgray' }}>{payout.title}</h2>
                     {
-                        pollData.options.map((opt, index) => {
+                        payoutData.users.map((opt, index) => {
                             return (
                                 <div style={{
-                                    backgroundColor:  showResults ? '#007bff' : '',
+                                    backgroundColor: showResults ? '#007bff' : '',
                                     color: '#fff',
                                     padding: 10,
                                     marginBottom: 10,
@@ -82,7 +112,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             )
                         })
                     }
-                    {/*{showResults ? <h3 style={{color: "darkgray"}}>Total votes: {totalVotes}</h3> : ''}*/}
+                    {/*{showResults ? <h3 style={{color: "darkgray"}}>Total amount: {totalVotes}</h3> : ''}*/}
                 </div>
             </div>
             ,

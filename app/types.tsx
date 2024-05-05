@@ -1,15 +1,17 @@
-export type Poll = {
+export type Payout = {
   id: string;
   title: string;
-  option1: string;
-  option2: string;
-  option3: string;
-  option4: string;
-  votes1: number;
-  votes2: number;
-  votes3: number;
-  votes4: number;
+  user1: string;
+  user2: string;
+  user3: string;
+  user4: string;
+  amount1: number;
+  amount2: number;
+  amount3: number;
+  amount4: number;
+  token:string;
+  totalAmount:number;
   created_at: number;
 };
 
-export const POLL_EXPIRY = 60 * 60 * 24 * 180; // Expire polls after 3 months
+export const PAYOUT_EXPIRY = 60 * 60 * 24 * 180; // Expire payouts after 3 months

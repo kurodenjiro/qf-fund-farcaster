@@ -8,8 +8,9 @@ import {
   AuthKitProvider,
   StatusAPIResponse,
 } from "@farcaster/auth-kit";
-import { PollCreateForm } from "./form";
+import { PayoutCreateForm } from "./form";
 import { useCallback, useState } from "react";
+
 
 const config = {
   relay: "https://relay.farcaster.xyz",
@@ -46,29 +47,39 @@ function Content() {
       signIn("credentials", {
         message: res.message,
         signature: res.signature,
-        name: res.username,
+        name: res.fid,
         pfp: res.pfpUrl,
         redirect: false,
       });
     },
     []
   );
-
+  const { data: session } = useSession();
   return (
     <div>
       <div style={{ position: "fixed", top: "12px", right: "12px" }}>
-        <SignInButton
+        {session ? (
+          <button
+            type="button"
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => signOut()}
+          >
+            Sign out
+          </button>
+        ) : (<SignInButton
           nonce={getNonce}
           onSuccess={handleSuccess}
           onError={() => setError(true)}
           onSignOut={() => signOut()}
-        />
+        />)}
+
         {error && <div>Unable to sign in at this time.</div>}
       </div>
 
-      <Profile />
+      
       <div>
-        <h2>Create payout</h2>
+        
+        <Profile />
       </div>
 
     </div>
@@ -80,18 +91,10 @@ function Profile() {
 
   return session ? (
     <div style={{ fontFamily: "sans-serif" }}>
-      <p>Signed in as {session.user?.name}</p>
-      <p>
-        <button
-          type="button"
-          style={{ padding: "6px 12px", cursor: "pointer" }}
-          onClick={() => signOut()}
-        >
-          Click here to sign out
-        </button>
-      </p>
+      <p>Signed in as {session.user?.name} </p>
+      <h2>Create payout</h2>
       <div className="flex flex-wrap items-center justify-around max-w-4xl my-8 sm:w-full bg-white rounded-md shadow-xl h-full border border-gray-100">
-        <PollCreateForm />
+        <PayoutCreateForm fId={session.user?.name as string} />
       </div>
     </div>
   ) : (
