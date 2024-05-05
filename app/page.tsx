@@ -7,7 +7,7 @@ import { providers } from "ethers";
 const config = {
   relay: "https://relay.farcaster.xyz",
   rpcUrl: "https://mainnet.optimism.io",
-  domain: "https://qf-fund-farcaster.vercel.app",
+  domain: "qf-fund-farcaster.vercel.app",
   siweUri: "https://qf-fund-farcaster.vercel.app",
 };
 
