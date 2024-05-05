@@ -73,7 +73,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if (!voted && !results) {
                 button1Text = "Back"
             } else if (voted && !results) {
-                button1Text = "Already Voted"
+                button1Text = "Already Payout"
             } else if (voted && results) {
                 button1Text = "View Results"
             }
@@ -101,7 +101,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           ❤️ by 🫕 Potlock"&embeds[]=${process.env['HOST']}/api/payout?id=${payout.id}`}">
         </head>
         <body>
-          <p>${ results || voted ? `You have already voted. You clicked ${buttonId}` : `Your vote for ${buttonId} has been recorded for fid ${fid}.` }</p>
+          <p>${ results || voted ? ` You clicked ${buttonId}` : ` ${buttonId} has been recorded for fid ${fid}.` }</p>
         </body>
       </html>
     `);

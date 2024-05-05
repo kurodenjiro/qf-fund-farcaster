@@ -6,6 +6,7 @@ import { redirectToPayouts, savePayout, votePayout } from "./actions";
 import { v4 as uuidv4 } from "uuid";
 import { Payout } from "./types";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ethers } from "ethers";
 
 type PayoutState = {
     newPayout: Payout;
@@ -267,7 +268,7 @@ export function PayoutVoteForm({ payout, viewResults }: { payout: Payout, viewRe
     const handleVote = (index: number) => {
         setSelectedOption(index)
     };
-
+    
     return (
         <div className="max-w-sm rounded overflow-hidden shadow-lg p-4 m-4">
             <div className="font-bold text-xl mb-2">{payout.title}</div>
@@ -310,7 +311,8 @@ export function PayoutVoteForm({ payout, viewResults }: { payout: Payout, viewRe
                     <a 
                     className="bg-blue-500 mr-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     href={` https://warpcast.com/~/compose?text="👤💸 followers.fund quadratically airdrop your followers with the most clout Make the sign in button in Center and the footer 
-❤️ by 🫕 Potlock"&embeds[]=${window.location.href}`}> Share Cast</a>
+❤️ by 🫕 Potlock"&embeds[]=${process.env['HOST']}/api/payout?id=${payout.id}`}> Share Cast</a>
+
                     <button
                         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         type="submit"
