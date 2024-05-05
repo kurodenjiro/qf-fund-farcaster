@@ -355,8 +355,9 @@ export function PayoutVoteForm({ payout, viewResults }: { payout: Payout, viewRe
                             onClick={() => sendTranstaction(payout.user1.split("-")[2].replace('0x',''), payout.amount4.toString())}
                         >Payout User 4
                         </button>
-                        <button onClick={() => disconnect()}  className="bg-blue-500 mr-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Disconnect</button>
+                        
                         </div>
+                        <div><button onClick={() => disconnect()}  className="bg-blue-500 mr-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Disconnect</button></div>
                     </>:<ConnectWallet /> }
                        
                     </div>
