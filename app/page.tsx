@@ -10,9 +10,22 @@ import {
 } from "@farcaster/auth-kit";
 import { PayoutCreateForm } from "./form";
 import { useCallback, useState } from "react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { WagmiProvider, useAccount } from 'wagmi'
+import { Account } from './account'
+import { WalletOptions } from './wallet-options'
+import { config } from './config'
 
 
-const config = {
+const queryClient = new QueryClient()
+
+function ConnectWallet() {
+  const { isConnected } = useAccount()
+  if (isConnected) return <Account />
+  return <WalletOptions />
+}
+
+const configFarcaster = {
   relay: "https://relay.farcaster.xyz",
   rpcUrl: "https://mainnet.optimism.io",
   siweUri: "https://qf-fund-farcaster.vercel.app/",
@@ -22,13 +35,18 @@ const config = {
 export default function Home() {
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen py-2">
-        <main className="flex flex-col items-center justify-center flex-1 px-4 sm:px-20 text-center">
-          <AuthKitProvider config={config}>
-            <Content />
-          </AuthKitProvider>
-        </main>
-      </div>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <div className="flex flex-col items-center justify-center min-h-screen py-2">
+            <main className="flex flex-col items-center justify-center flex-1 px-4 sm:px-20 text-center">
+              <AuthKitProvider config={configFarcaster}>
+                <Content />
+              </AuthKitProvider>
+            </main>
+          </div>
+        </QueryClientProvider>
+      </WagmiProvider>
+
     </>
   );
 }
