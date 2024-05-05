@@ -94,7 +94,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           <meta name="fc:frame:button:2" content="Create your payout">
           <meta name="fc:frame:button:2:target" content="${process.env['HOST']}">
           <meta name="fc:frame:button:3" content="Cast">
-          <meta name="fc:frame:button:3:target" content="${` https://warpcast.com/~/compose?text="
+          <meta name="fc:frame:button:3:target" content="${`https://warpcast.com/~/compose?text="
           👤💸 followers.fund 
           quadratically airdrop your followers with the most clout 
           Make the sign in button in Center and the footer 
